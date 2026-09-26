@@ -13,6 +13,11 @@ services:
         fromDatabase:
           name: settleup-db
           property: connectionString
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: settleup-redis
+          property: connectionString
       - key: REDIS_HOST
         fromService:
           type: redis
@@ -29,6 +34,12 @@ services:
         value: update
       - key: SEED_DEMO_DATA
         value: "true"
+
+  - type: redis
+    name: settleup-redis
+    region: oregon
+    plan: free
+    ipAllowList: []
 
 databases:
   - name: settleup-db
