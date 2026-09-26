@@ -2,7 +2,7 @@
 
 > Eliminate redundant IOUs. SettleUp computes the **minimum number of transactions** to settle all debts in a group using a greedy debt-simplification algorithm.
 
-[![CI](https://github.com/YOUR_USERNAME/settleup/actions/workflows/ci.yml/badge.svg)](https://github.com/YOUR_USERNAME/settleup/actions)
+[![CI](https://github.com/tutu82430-alt/settleup/actions/workflows/ci.yml/badge.svg)](https://github.com/tutu82430-alt/settleup/actions)
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green)
 ![React](https://img.shields.io/badge/React-18-blue)
@@ -369,7 +369,7 @@ npm run test:coverage
 
 ```bash
 # Initialize and push to GitHub
-git remote add origin https://github.com/<YOUR_USERNAME>/settleup.git
+git remote add origin https://github.com/tutu82430-alt/settleup.git
 git branch -M main
 git push -u origin main
 ```
