@@ -18,9 +18,16 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
-        // STOMP endpoint with SockJS fallback
+        // STOMP endpoint with SockJS fallback and production CORS origins
         registry.addEndpoint("/ws")
-                .setAllowedOriginPatterns("*")
+                .setAllowedOriginPatterns(
+                        "http://localhost:3000",
+                        "http://localhost:5173",
+                        "https://*.vercel.app",
+                        "https://settleup-app.vercel.app",
+                        "https://settleup-backend.onrender.com",
+                        "*"
+                )
                 .withSockJS();
     }
 }
