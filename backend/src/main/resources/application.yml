@@ -1,0 +1,59 @@
+spring:
+  application:
+    name: settleup-backend
+
+  datasource:
+    url: ${DB_URL:jdbc:postgresql://localhost:5432/settleup}
+    username: ${DB_USERNAME:settleup}
+    password: ${DB_PASSWORD:settleup_secret}
+    driver-class-name: org.postgresql.Driver
+    hikari:
+      maximum-pool-size: 10
+      minimum-idle: 2
+
+  jpa:
+    hibernate:
+      ddl-auto: ${JPA_DDL_AUTO:update}
+    show-sql: false
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+        jdbc:
+          batch_size: 20
+        order_inserts: true
+        order_updates: true
+
+  data:
+    redis:
+      host: ${REDIS_HOST:localhost}
+      port: ${REDIS_PORT:6379}
+      password: ${REDIS_PASSWORD:}
+      lettuce:
+        pool:
+          max-active: 8
+          max-idle: 8
+          min-idle: 2
+
+  cache:
+    type: redis
+    redis:
+      time-to-live: 300000  # 5 minutes in ms
+
+server:
+  port: ${SERVER_PORT:8080}
+  error:
+    include-message: always
+    include-binding-errors: always
+
+app:
+  seed-demo-data: ${SEED_DEMO_DATA:true}
+  jwt:
+    secret: ${JWT_SECRET:ThisIsAVeryLongSecretKeyForJWTSigningAndShouldBeAtLeast256BitsLong!}
+    expiration-ms: ${JWT_EXPIRATION_MS:86400000}  # 24 hours
+
+logging:
+  level:
+    io.settleup: DEBUG
+    org.springframework.security: WARN
+    org.hibernate.SQL: WARN
