@@ -1,0 +1,164 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-bg: 15 23 42;
+    --color-surface: 30 41 59;
+    --color-border: 51 65 85;
+    color-scheme: dark;
+  }
+
+  * {
+    @apply border-surface-700/50;
+  }
+
+  body {
+    @apply bg-surface-950 text-slate-100 font-sans antialiased;
+    background-image:
+      radial-gradient(ellipse at top, rgba(99, 102, 241, 0.08) 0%, transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(139, 92, 246, 0.06) 0%, transparent 50%);
+    min-height: 100vh;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-semibold tracking-tight;
+  }
+
+  input, textarea, select {
+    @apply outline-none;
+  }
+}
+
+@layer components {
+  /* ── Cards ── */
+  .card {
+    @apply bg-surface-800/80 backdrop-blur-sm rounded-2xl border border-surface-700/50 shadow-card
+           transition-all duration-300;
+    background-image: var(--tw-gradient-stops, none);
+  }
+
+  .card-hover {
+    @apply card hover:shadow-card-hover hover:border-brand-700/50 hover:-translate-y-0.5;
+  }
+
+  /* ── Buttons ── */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-xl font-semibold
+           transition-all duration-200 focus-visible:outline-none focus-visible:ring-2
+           focus-visible:ring-brand-500 focus-visible:ring-offset-2 focus-visible:ring-offset-surface-950
+           disabled:opacity-50 disabled:cursor-not-allowed select-none;
+  }
+
+  .btn-primary {
+    @apply btn bg-brand-600 hover:bg-brand-500 text-white shadow-md
+           hover:shadow-glow-blue active:scale-95 px-5 py-2.5 text-sm;
+  }
+
+  .btn-secondary {
+    @apply btn bg-surface-700 hover:bg-surface-600 text-slate-200 border border-surface-600
+           hover:border-surface-500 active:scale-95 px-5 py-2.5 text-sm;
+  }
+
+  .btn-danger {
+    @apply btn bg-danger-600 hover:bg-danger-500 text-white shadow-md
+           hover:shadow-glow-red active:scale-95 px-5 py-2.5 text-sm;
+  }
+
+  .btn-ghost {
+    @apply btn hover:bg-surface-700/50 text-slate-300 hover:text-slate-100 px-3 py-2 text-sm;
+  }
+
+  .btn-icon {
+    @apply btn p-2 rounded-xl hover:bg-surface-700/50;
+  }
+
+  .btn-lg {
+    @apply px-7 py-3.5 text-base;
+  }
+
+  /* ── Inputs ── */
+  .input {
+    @apply w-full bg-surface-900/50 border border-surface-600 rounded-xl px-4 py-2.5 text-sm
+           text-slate-100 placeholder-slate-500
+           focus:border-brand-500 focus:ring-1 focus:ring-brand-500/50
+           transition-colors duration-200;
+  }
+
+  .input-error {
+    @apply border-danger-500 focus:border-danger-500 focus:ring-danger-500/50;
+  }
+
+  .label {
+    @apply block text-xs font-semibold uppercase tracking-wider text-slate-400 mb-1.5;
+  }
+
+  /* ── Badges ── */
+  .badge {
+    @apply inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-blue   { @apply badge bg-brand-900/50 text-brand-300 border border-brand-700/50; }
+  .badge-green  { @apply badge bg-success-600/20 text-success-400 border border-success-600/30; }
+  .badge-red    { @apply badge bg-danger-600/20 text-danger-400 border border-danger-600/30; }
+  .badge-yellow { @apply badge bg-warning-600/20 text-warning-400 border border-warning-600/30; }
+
+  /* ── Nav ── */
+  .nav-link {
+    @apply flex items-center gap-2 px-3 py-2 rounded-xl text-sm font-medium
+           text-slate-400 hover:text-slate-100 hover:bg-surface-700/50
+           transition-all duration-200;
+  }
+
+  .nav-link-active {
+    @apply nav-link text-brand-400 bg-brand-900/30 border border-brand-800/50;
+  }
+
+  /* ── Skeleton ── */
+  .skeleton {
+    @apply rounded-xl bg-surface-700/50 animate-pulse;
+  }
+
+  /* ── Divider ── */
+  .divider {
+    @apply border-t border-surface-700/50 my-4;
+  }
+
+  /* ── Amount display ── */
+  .amount-positive {
+    @apply text-success-400 font-semibold tabular-nums;
+  }
+
+  .amount-negative {
+    @apply text-danger-400 font-semibold tabular-nums;
+  }
+
+  .amount-neutral {
+    @apply text-slate-300 font-semibold tabular-nums;
+  }
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { @apply bg-surface-900; }
+::-webkit-scrollbar-thumb { @apply bg-surface-600 rounded-full; }
+::-webkit-scrollbar-thumb:hover { @apply bg-surface-500; }
+
+/* ── Recharts dark mode overrides ── */
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(51, 65, 85, 0.5) !important;
+}
+.recharts-text { fill: #94a3b8 !important; }
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #1e293b !important;
+  border: 1px solid rgba(51,65,85,0.7) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 4px 24px rgba(0,0,0,0.4) !important;
+}
+
+/* ── Page transitions ── */
+.page-enter {
+  animation: fadeIn 0.3s ease-out, slideUp 0.3s ease-out;
+}
