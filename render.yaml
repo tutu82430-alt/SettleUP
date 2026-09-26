@@ -1,0 +1,38 @@
+services:
+  - type: web
+    name: settleup-backend
+    env: docker
+    dockerContext: ./backend
+    dockerfilePath: ./backend/Dockerfile
+    region: oregon
+    plan: free
+    envVars:
+      - key: SERVER_PORT
+        value: 8080
+      - key: DB_URL
+        fromDatabase:
+          name: settleup-db
+          property: connectionString
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: settleup-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: settleup-redis
+          property: port
+      - key: JWT_SECRET
+        generateValue: true
+      - key: JPA_DDL_AUTO
+        value: update
+      - key: SEED_DEMO_DATA
+        value: "true"
+
+databases:
+  - name: settleup-db
+    databaseName: settleup
+    user: settleup
+    region: oregon
+    plan: free

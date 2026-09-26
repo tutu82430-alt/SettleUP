@@ -1,0 +1,42 @@
+# Root gitignore for SettleUp monorepo
+
+# ============ Environment / Secrets ============
+.env
+*.env.local
+*.env.production
+*.env.*.local
+
+# ============ OS ============
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# ============ IDEs ============
+.idea/
+.vscode/settings.json
+*.iml
+*.suo
+*.user
+
+# ============ Java / Maven ============
+backend/target/
+backend/.mvn/wrapper/maven-wrapper.jar
+*.class
+*.jar
+*.war
+*.ear
+hs_err_pid*
+
+# ============ Node / Frontend ============
+frontend/node_modules/
+frontend/dist/
+frontend/.vite/
+frontend/coverage/
+
+# ============ Docker ============
+*.pid
+*.sock
+
+# ============ Logs ============
+*.log
+logs/
