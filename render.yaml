@@ -6,9 +6,8 @@ services:
     dockerfilePath: ./backend/Dockerfile
     region: oregon
     plan: free
+    healthCheckPath: /actuator/health
     envVars:
-      - key: SERVER_PORT
-        value: 8080
       - key: DB_URL
         fromDatabase:
           name: settleup-db

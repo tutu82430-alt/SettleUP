@@ -26,9 +26,11 @@ spring:
 
   data:
     redis:
+      url: ${REDIS_URL:}
       host: ${REDIS_HOST:localhost}
       port: ${REDIS_PORT:6379}
       password: ${REDIS_PASSWORD:}
+      timeout: 2000ms
       lettuce:
         pool:
           max-active: 8
@@ -36,12 +38,12 @@ spring:
           min-idle: 2
 
   cache:
-    type: redis
+    type: ${CACHE_TYPE:redis}
     redis:
       time-to-live: 300000  # 5 minutes in ms
 
 server:
-  port: ${SERVER_PORT:8080}
+  port: ${PORT:${SERVER_PORT:8080}}
   error:
     include-message: always
     include-binding-errors: always
