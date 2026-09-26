@@ -43,7 +43,7 @@ public class SecurityConfig {
             .authorizeHttpRequests(auth -> auth
                     .requestMatchers(HttpMethod.POST, "/api/auth/**").permitAll()
                     .requestMatchers("/ws/**").permitAll()        // WebSocket endpoints
-                    .requestMatchers("/actuator/health").permitAll()
+                    .requestMatchers("/health", "/api/health", "/actuator/health").permitAll()
                     .anyRequest().authenticated()
             )
             .authenticationProvider(authenticationProvider())
@@ -52,21 +52,19 @@ public class SecurityConfig {
         return http.build();
     }
 
-    @Value("${app.cors.allowed-origins:http://localhost:3000,http://localhost:5173,https://*.vercel.app}")
+    @Value("${ALLOWED_ORIGIN:${app.cors.allowed-origins:http://localhost:3000,http://localhost:5173,https://*.vercel.app}}")
     private String allowedOrigins;
 
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration config = new CorsConfiguration();
-        List<String> origins = List.of(allowedOrigins.split(","));
-        config.setAllowedOriginPatterns(List.of(
-                "http://localhost:3000",
-                "http://localhost:5173",
-                "https://*.vercel.app",
-                "https://settleup-app.vercel.app",
-                "https://settleup-backend.onrender.com",
-                "*"
-        ));
+        java.util.List<String> originsList = new java.util.ArrayList<>(java.util.Arrays.asList(allowedOrigins.split(",")));
+        originsList.add("http://localhost:3000");
+        originsList.add("http://localhost:5173");
+        originsList.add("https://*.vercel.app");
+        originsList.add("*");
+
+        config.setAllowedOriginPatterns(originsList);
         config.setAllowedMethods(List.of("GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"));
         config.setAllowedHeaders(List.of("*"));
         config.setAllowCredentials(true);

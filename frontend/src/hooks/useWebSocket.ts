@@ -4,6 +4,15 @@ import SockJS from 'sockjs-client'
 import { useQueryClient } from '@tanstack/react-query'
 import { useAuthStore } from '@/store/authStore'
 
+const getWsUrl = () => {
+  if (import.meta.env.VITE_WS_URL) return import.meta.env.VITE_WS_URL
+  const apiBase = import.meta.env.VITE_API_URL || import.meta.env.VITE_API_BASE_URL
+  if (apiBase) {
+    return apiBase.replace(/\/api\/?$/, '').concat('/ws')
+  }
+  return '/ws'
+}
+
 /**
  * Subscribes to /topic/groups/{groupId}/balances and invalidates
  * the balance query whenever a balance update is broadcast.
@@ -17,7 +26,7 @@ export function useGroupWebSocket(groupId: number) {
     if (!groupId || !token) return
 
     const client = new Client({
-      webSocketFactory: () => new SockJS('/ws'),
+      webSocketFactory: () => new SockJS(getWsUrl()),
       connectHeaders: { Authorization: `Bearer ${token}` },
       reconnectDelay: 5000,
       onConnect: () => {

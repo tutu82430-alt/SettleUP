@@ -6,8 +6,10 @@ services:
     dockerfilePath: ./backend/Dockerfile
     region: oregon
     plan: free
-    healthCheckPath: /actuator/health
+    healthCheckPath: /health
     envVars:
+      - key: ALLOWED_ORIGIN
+        value: "https://*.vercel.app,http://localhost:3000,http://localhost:5173"
       - key: DB_URL
         fromDatabase:
           name: settleup-db
