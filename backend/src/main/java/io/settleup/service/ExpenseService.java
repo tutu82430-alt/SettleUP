@@ -94,7 +94,7 @@ public class ExpenseService {
                     groupId, category, fromDate, toDate, memberId);
         }
 
-        return expenses.stream().map(this::toDto).collect(Collectors.toList());
+        return expenses.stream().map(ExpenseService::toDto).collect(Collectors.toList());
     }
 
     @Transactional
