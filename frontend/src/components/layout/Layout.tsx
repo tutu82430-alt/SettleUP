@@ -6,7 +6,6 @@ import {
   Users,
   PlusCircle,
   LogOut,
-  Settings,
   ChevronRight,
   Wallet,
 } from 'lucide-react'

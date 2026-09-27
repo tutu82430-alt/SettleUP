@@ -9,7 +9,7 @@ import {
   Cell,
   ReferenceLine,
 } from 'recharts'
-import { Loader2, BarChart2 } from 'lucide-react'
+import { BarChart2 } from 'lucide-react'
 import clsx from 'clsx'
 
 interface Props {
@@ -36,11 +36,6 @@ export default function BalancePanel({ balance, isLoading, members }: Props) {
     name: balance.memberDisplayNames[Number(uid)] ?? `User ${uid}`,
     balance: parseFloat(Number(bal).toFixed(2)),
   }))
-
-  const totalBalance = Object.values(balance.memberBalances).reduce(
-    (sum, b) => sum + Number(b),
-    0,
-  )
 
   return (
     <div className="space-y-5">

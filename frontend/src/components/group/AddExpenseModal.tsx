@@ -1,5 +1,4 @@
-import { useState } from 'react'
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { useAddExpense } from '@/hooks/useExpenses'
 import type { GroupMember, SplitType } from '@/types'
 import { X, Loader2, DollarSign } from 'lucide-react'
@@ -29,7 +28,7 @@ const CATEGORIES = [
 
 export default function AddExpenseModal({ groupId, members, currentUserId, onClose }: Props) {
   const addExpense = useAddExpense(groupId)
-  const { register, handleSubmit, watch, control, formState: { errors } } = useForm<ExpenseFormData>({
+  const { register, handleSubmit, watch, formState: { errors } } = useForm<ExpenseFormData>({
     defaultValues: {
       splitType: 'EQUAL',
       expenseDate: new Date().toISOString().split('T')[0],
