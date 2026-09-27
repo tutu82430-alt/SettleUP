@@ -110,7 +110,7 @@ describe('Debt Simplification Algorithm (Frontend)', () => {
       { userId: 3, balance: -5 },
       { userId: 4, balance: -25 },
     ])
-    expect(txs.length).toBeLessThanOrEqualTo(3)
+    expect(txs.length).toBeLessThanOrEqual(3)
     const totalSettled = txs.reduce((sum, t) => sum + t.amount, 0)
     expect(totalSettled).toBe(30)
   })
@@ -123,6 +123,6 @@ describe('Debt Simplification Algorithm (Frontend)', () => {
       { userId: 4, balance: -30 },
     ])
     // 4 people, so at most 3 transactions
-    expect(txs.length).toBeLessThanOrEqualTo(3)
+    expect(txs.length).toBeLessThanOrEqual(3)
   })
 })

@@ -9,10 +9,12 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.GenericJackson2JsonRedisSerializer;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.springframework.context.annotation.Profile;
 
 import java.time.Duration;
 
 @Configuration
+@Profile("!test")
 public class RedisConfig {
 
     @Bean
