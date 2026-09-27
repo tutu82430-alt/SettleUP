@@ -3,30 +3,50 @@
 > Eliminate redundant IOUs. SettleUp computes the **minimum number of transactions** to settle all debts in a group using a greedy debt-simplification algorithm.
 
 [![CI](https://github.com/tutu82430-alt/settleup/actions/workflows/ci.yml/badge.svg)](https://github.com/tutu82430-alt/settleup/actions)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Java](https://img.shields.io/badge/Java-17-orange)
 ![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-green)
 ![React](https://img.shields.io/badge/React-18-blue)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-16-blue)
+![Redis](https://img.shields.io/badge/Redis-7-red)
+![Docker](https://img.shields.io/badge/Docker-Enabled-blue)
 
 ---
 
 ## 🚀 Live Demo & Demo Account
 
-- **Frontend Application (Vercel):** `https://settleup-app.vercel.app` (or your deployed Vercel URL)
+- **Frontend Application (Vercel):** `https://settleup-app.vercel.app`
 - **Backend API Service (Render):** `https://settleup-backend.onrender.com`
 
-### 🔑 Instant Demo Login
-You can log in directly using the pre-seeded demo account to explore pre-configured groups, expenses, and simplified balances:
+> **Note:** The backend service is hosted on Render's free tier. If the instance is dormant, the first request may take **30–60 seconds** to wake up the server.
+
+### 🔑 Instant Demo Credentials
+Log in directly with the pre-seeded demo account to explore active groups, expenses, and simplified settlements:
 - **Email:** `demo@settleup.app`
 - **Password:** `password123`
 
-*(Alternatively, click **Create Account** to register a new user account).*
+*(You can also click **Create Account** to register a new user).*
+
+---
+
+## 📸 Screenshots
+
+### 1. Dashboard & Net Balance Overview
+![Dashboard Overview](screenshots/dashboard.png)
+
+### 2. Add Expense Modal & Split Options (Equal, Percentage, Exact)
+![Add Expense Modal & Split Options](screenshots/add_expense.png)
+
+### 3. Group Detail & Live Net Balances Chart
+![Group Detail & Net Balances](screenshots/group_detail.png)
 
 ---
 
 ## Table of Contents
 
 - [Live Demo & Demo Account](#-live-demo--demo-account)
+- [Screenshots](#-screenshots)
 - [The Problem](#the-problem)
 - [Debt Simplification Algorithm](#debt-simplification-algorithm)
 - [Architecture](#architecture)
@@ -50,7 +70,7 @@ Charlie → Alice: $10
 Dave → Alice: $30
 ```
 
-This is 4 transactions. SettleUp computes the **net balance** of each person and finds the minimal set of payments that zeros everyone out — in this case just 2 or 3 transactions.
+This is 4 transactions. SettleUp computes the **net balance** of each person and finds the minimal set of payments that zeros everyone out — in this case just 2 transactions.
 
 ---
 
@@ -145,11 +165,6 @@ Minimum transactions:
 - The greedy algorithm produced exactly 2 transactions.
 - Therefore, the algorithm produces the **absolute minimum number of transactions** for this scenario.
 
-**Properties:**
-- Produces at most **N-1** transactions for N participants
-- Greedy matching is optimal or near-optimal for typical distributions
-- Handles floating-point rounding via integer cents arithmetic internally
-
 ---
 
 ## Architecture
@@ -160,7 +175,7 @@ graph TB
         UI[Pages & Components]
         RQ[React Query]
         ZS[Zustand Store]
-        WS_CLIENT[Socket.IO / STOMP Client]
+        WS_CLIENT[STOMP Client]
     end
 
     subgraph Backend["Backend (Spring Boot 3)"]
@@ -258,13 +273,12 @@ dto/               Request + Response DTOs (never expose entities)
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/YOUR_USERNAME/settleup.git
+git clone https://github.com/tutu82430-alt/settleup.git
 cd settleup
 
 # 2. Copy and configure environment variables
 cp backend/.env.example backend/.env
 cp frontend/.env.example frontend/.env.local
-# Edit .env files with your secrets
 
 # 3. Start the entire stack
 docker compose up --build -d
@@ -274,7 +288,7 @@ docker compose ps
 
 # 5. Access the app
 open http://localhost:3000       # Frontend
-open http://localhost:8080/actuator/health  # Backend health
+open http://localhost:8080/health # Backend health
 ```
 
 ### Run Locally (Development)
@@ -286,9 +300,6 @@ cd backend
 # Ensure PostgreSQL and Redis are running (or use Docker)
 docker run -d -p 5432:5432 -e POSTGRES_DB=settleup -e POSTGRES_USER=settleup -e POSTGRES_PASSWORD=settleup_secret postgres:16-alpine
 docker run -d -p 6379:6379 redis:7-alpine
-
-# Copy env file
-cp .env.example .env
 
 # Run Spring Boot
 ./mvnw spring-boot:run
@@ -339,11 +350,6 @@ npm run dev
 | `PATCH` | `/api/groups/:id/settlements/:sid/confirm` | Confirm receipt of payment |
 | `GET` | `/api/dashboard` | User's aggregate balance across all groups |
 
-### WebSocket
-
-Connect via SockJS to `/ws`, subscribe to `/topic/groups/{groupId}/balances`.
-Receive `{ groupId, type: "BALANCE_UPDATED" }` when any expense or settlement changes.
-
 ---
 
 ## Running Tests
@@ -356,43 +362,30 @@ cd backend
 # Frontend (Vitest)
 cd frontend
 npm run test
-
-# With coverage
-npm run test:coverage
 ```
 
 ---
 
 ## Deployment
 
-### 1. Push to GitHub
-
-```bash
-# Initialize and push to GitHub
-git remote add origin https://github.com/tutu82430-alt/settleup.git
-git branch -M main
-git push -u origin main
-```
-
-### 2. Deploy Backend to Render (Spring Boot + PostgreSQL + Redis)
+### 1. Deploy Backend to Render (Spring Boot + PostgreSQL + Redis)
 
 1. Sign in to [Render.com](https://render.com).
 2. Click **New +** $\rightarrow$ **Blueprint**.
 3. Connect your GitHub repository `settleup`.
-4. Render will automatically detect `render.yaml` and provision:
+4. Render automatically provisions:
    - **Database:** PostgreSQL (`settleup-db`)
    - **Cache:** Redis (`settleup-redis`)
-   - **Web Service:** Spring Boot (`settleup-backend`) built with `./backend/Dockerfile`
-5. Click **Apply**.
-6. Render auto-generates a secure `JWT_SECRET` and connects `DB_URL`. Once built, copy your backend URL (e.g., `https://settleup-backend.onrender.com`).
+   - **Web Service:** Spring Boot (`settleup-backend`)
+5. Render auto-generates `JWT_SECRET` and connects `DB_URL`.
 
-### 3. Deploy Frontend to Vercel (React + Vite)
+### 2. Deploy Frontend to Vercel (React + Vite)
 
 1. Sign in to [Vercel.com](https://vercel.com).
 2. Click **Add New** $\rightarrow$ **Project**.
-3. Import your `settleup` GitHub repository.
+3. Import `settleup` GitHub repository.
 4. Set **Root Directory** to `frontend`.
-5. Under **Environment Variables**, add:
+5. Environment Variables:
    - `VITE_API_URL`: `https://settleup-backend.onrender.com/api`
    - `VITE_WS_URL`: `https://settleup-backend.onrender.com/ws`
 6. Click **Deploy**.
@@ -401,4 +394,4 @@ git push -u origin main
 
 ## License
 
-MIT © SettleUp Dev
+[MIT License](LICENSE) © SettleUp
