@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Profile;
 import java.time.Duration;
 
 @Configuration
-@Profile("!test")
 public class RedisConfig {
 
     @Bean

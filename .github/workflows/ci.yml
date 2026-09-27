@@ -13,7 +13,19 @@ jobs:
     runs-on: ubuntu-latest
 
     services:
-      # H2 in-memory DB is used for tests; no external DB needed
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_DB: settleup
+          POSTGRES_USER: settleup
+          POSTGRES_PASSWORD: settleup_secret
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U settleup -d settleup"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
       redis:
         image: redis:7-alpine
         ports:

@@ -10,7 +10,6 @@ import org.springframework.context.annotation.Profile;
 
 @Configuration
 @Slf4j
-@Profile("!test")
 public class DataSourceConfig {
 
     @Value("${DB_URL:${SPRING_DATASOURCE_URL:jdbc:postgresql://localhost:5432/settleup}}")
